@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Vue</title>
+   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+ </head>
+ <body>
+<div id="app">
+      <button v-on:click = makePower>⬆</button>
+      <input v-model = "num">
+      <ul>
+        <pow
+             v-for = "(pow, index) in power"
+             :key = index
+             :pow = pow
+             ></pow>
+      </ul>
+    </div>
+    <script>
+      Vue.component('pow', {
+        props: ['pow'],
+        template: '<li>2<sup>{{pow}}</sup> = {{2**pow}}</li>'
+      });
+      new Vue({
+        el: '#app',
+        data: {
+          power: [],
+          num: 5
+        },
+        created() {
+          for (let i = 0; i < this.num; i++) {
+            this.power.push(10 + i);
+          }
+        },
+        beforeUpdate() {
+          if (!isNaN(this.num) && this.num >= 1) {
+            this.num = Math.floor(this.num);
+            this.power = [];
+            for (let i = 0; i < this.num; i++) {
+              this.power.push(10 + i);
+            }
+          }
+        },
+        methods: {
+          makePower: function() {
+            if (!isNaN(this.num) && this.num >= 0) {
+              this.num = Math.floor(this.num) + 1;
+              this.power = [];
+              for (let i = 0; i < this.num; i++) {
+                this.power.push(10 + i);
+              }
+            }
+          }
+        }
+      });
+    </script>
+    <hr>
+ </body>
+</html>
